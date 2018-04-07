@@ -1,6 +1,5 @@
-package br.com.entities;
+package br.com.entity;
 
-import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDate;

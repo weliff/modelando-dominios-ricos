@@ -1,6 +1,7 @@
-package br.com.entities;
+package br.com.entity;
 
-import lombok.Data;
+import br.com.vo.Document;
+import br.com.vo.Email;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -22,16 +23,17 @@ public abstract class Payment {
 
     private String payer;
 
-    private String document;
+    private Document document;
 
     /* Endereço de cobrança  */
     private String address;
 
     /* o aluno pode ter emails diferentes pr pagamento. ex: paypal */
-    private String email;
+    private Email email;
 
     public Payment(LocalDate paidDate, LocalDate expireDate, BigDecimal total, BigDecimal totalPaid,
-                   String payer, String document, String address, String email) {
+                   String payer, Document document, String address, Email email) {
+
         this.number = UUID.randomUUID().toString().replace("-", "").substring(0, 10).toUpperCase();
         this.paidDate = paidDate;
         this.expireDate = expireDate;

@@ -1,5 +1,7 @@
-package br.com.entities;
+package br.com.entity;
 
+import br.com.vo.Document;
+import br.com.vo.Email;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -13,7 +15,8 @@ public class BoletoPayment extends Payment {
     private String boletoNumber;
 
     public BoletoPayment(LocalDate paidDate, LocalDate expireDate, BigDecimal total, BigDecimal totalPaid,
-                         String payer, String document, String address, String email, String barCode, String boletoNumber) {
+                         String payer, Document document, String address, Email email, String barCode, String boletoNumber) {
+
         super(paidDate, expireDate, total, totalPaid, payer, document, address, email);
         this.barCode = barCode;
         this.boletoNumber = boletoNumber;

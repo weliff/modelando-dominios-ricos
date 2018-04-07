@@ -1,5 +1,7 @@
-package br.com.entities;
+package br.com.entity;
 
+import br.com.vo.Document;
+import br.com.vo.Email;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -11,7 +13,8 @@ public class PayPalPayment extends Payment {
     private String transactionCode;
 
     public PayPalPayment(LocalDate paidDate, LocalDate expireDate, BigDecimal total, BigDecimal totalPaid,
-                         String payer, String document, String address, String email, String transactionCode) {
+                         String payer, Document document, String address, Email email, String transactionCode) {
+
         super(paidDate, expireDate, total, totalPaid, payer, document, address, email);
         this.transactionCode = transactionCode;
     }

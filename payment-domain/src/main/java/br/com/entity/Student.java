@@ -1,21 +1,19 @@
-package br.com.entities;
+package br.com.entity;
 
-import lombok.AccessLevel;
+import br.com.vo.Document;
+import br.com.vo.Name;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class Student {
+public class Student extends Entity {
 
-    private String firstName;
+    private Name name;
 
-    private String lastName;
-
-    private String document;
+    private Document document;
 
     private String email;
 
@@ -24,9 +22,8 @@ public class Student {
 
     private List<Subscription> subscriptions;
 
-    public Student(String firstName, String lastName, String document, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Student(Name name, Document document, String email) {
+        this.name = name;
         this.document = document;
         this.email = email;
         this.subscriptions = new ArrayList<>();
