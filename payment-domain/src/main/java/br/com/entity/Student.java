@@ -1,9 +1,14 @@
 package br.com.entity;
 
+import br.com.entity.contract.OnlyOneSubscriptionActive;
+import br.com.vo.Address;
 import br.com.vo.Document;
+import br.com.vo.Email;
 import br.com.vo.Name;
 import lombok.Getter;
+import org.springframework.validation.ValidationUtils;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,16 +18,19 @@ public class Student extends Entity {
 
     private Name name;
 
+    @Valid
     private Document document;
 
-    private String email;
+    @Valid
+    private Email email;
 
     /* Endereço de entrega */
-    private String address;
+    private Address address;
 
-    private List<Subscription> subscriptions;
+    @OnlyOneSubscriptionActive
+    private List<@Valid Subscription> subscriptions;
 
-    public Student(Name name, Document document, String email) {
+    public Student(Name name, Document document, Email email) {
         this.name = name;
         this.document = document;
         this.email = email;
@@ -30,11 +38,12 @@ public class Student extends Entity {
     }
 
     public void addSubscription(Subscription subscription) {
-        subscriptions.forEach(Subscription::activate);
-        subscriptions.add(subscription);
+        if (isValid()) {
+            subscriptions.add(subscription);
+        }
     }
 
-    //ninguem de fora pode alterar a lista
+    //ninguem de fora pode alterar a lista -- evita corrupção
     public List<Subscription> getSubscriptions() {
         return Collections.unmodifiableList(subscriptions);
     }

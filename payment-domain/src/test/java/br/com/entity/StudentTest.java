@@ -1,30 +1,65 @@
 package br.com.entity;
 
-import br.com.config.ContractConfig;
+import br.com.vo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StudentTest {
 
-//    private Student student;
-//
+    private Document document;
+
+    private Address address;
+
+    private Email email;
+
+    private Subscription subscription;
+
+    private Student student;
+
     @BeforeEach
     void setUp() {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
-        applicationContext.register(ContractConfig.class);
+        Name name = new Name("Jose", "Lima");
+        this.document = new Document("48751824060", DocumentType.CPF);
+        this.email = new Email("jose@email.com");
+        this.address = new Address("Rua A", "1234", "Bairro B", "São Paulo",
+                "SP", "BR", "14300000");
+
+        this.subscription = new Subscription(null);
+        this.student = new Student(name, document, email);
+
     }
 
     @Test
-    void adicionarAssinatura() {
+    void shouldReturnErrorWhenHadActiveSubscription() {
+        Payment payment = new PayPalPayment(LocalDate.now(), LocalDate.now().plusDays(5), new BigDecimal(10),
+                new BigDecimal(10), "JOSE LIMA", document, address, email, "12345566");
+        subscription.addPayment(payment);
 
-        Subscription subscription = new Subscription(LocalDate.now().plusDays(30));
+        student.addSubscription(subscription);
+        student.addSubscription(subscription);
 
-//        Student student = new Student("Weliff",
-//                "Lima", "11111111", "weliff@email.com");
+        assertTrue(student.isInvalid());
+    }
 
-//        student.addSubscription(subscription);
+    @Test
+    void shouldReturnErrorWhenSubscriptionHasNoPayment() {
+        student.addSubscription(subscription);
+        assertTrue(student.isInvalid());
+    }
+
+    @Test
+    void shouldReturnSuccessWhenAddSubscription() {
+        Payment payment = new PayPalPayment(LocalDate.now(), LocalDate.now().plusDays(5), new BigDecimal(10),
+                new BigDecimal(10), "JOSE LIMA", document, address, email, "12345566");
+        subscription.addPayment(payment);
+
+        student.addSubscription(subscription);
+
+        assertTrue(student.isValid());
     }
 }

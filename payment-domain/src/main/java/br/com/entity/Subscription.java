@@ -1,7 +1,11 @@
 package br.com.entity;
 
+import lombok.Data;
 import lombok.Getter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Getter
-public class Subscription {
+public class Subscription extends Entity {
 
     private LocalDate createDate;
 
@@ -19,7 +23,8 @@ public class Subscription {
 
     private Boolean active;
 
-    private List<Payment> payments;
+    @NotEmpty
+    private List<@Valid Payment> payments;
 
     public Subscription(LocalDate expireDate) {
         this.createDate = LocalDate.now();
@@ -37,6 +42,10 @@ public class Subscription {
     public void inactivate() {
         active = true;
         lastUpdateDate = LocalDate.now();
+    }
+
+    public boolean isInactive() {
+        return active == null || !this.active;
     }
 
     public void addPayment(Payment payment) {
