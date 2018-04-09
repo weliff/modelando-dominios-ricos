@@ -30,4 +30,6 @@ Modelando Dominios Ricos
 
 10. Repository: abstrai o acesso a dados do dominio.
 
+11. Handlers: Tratatam as solicitações, fazem parse de commands para objetos de dominio e executar ações chamando serviços, repositorios, etc.
+
 
