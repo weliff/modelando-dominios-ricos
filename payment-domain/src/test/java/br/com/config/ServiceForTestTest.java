@@ -1,8 +1,11 @@
 package br.com.config;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,6 +23,6 @@ class ServiceForTestTest {
     @Test
     void validateEmail() {
         ServiceForTest serviceForTest = applicationContext.getBean(ServiceForTest.class);
-        serviceForTest.validateEmail("invalid");
+        Assertions.assertThrows(ConstraintViolationException.class, () -> serviceForTest.validateEmail("invalid"));
     }
 }

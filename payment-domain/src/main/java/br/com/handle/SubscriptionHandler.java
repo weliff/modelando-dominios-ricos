@@ -4,10 +4,12 @@ import br.com.command.CommandResult;
 import br.com.command.CreatePayPalSubscriptionCommand;
 import br.com.command.GenericCommandResult;
 import br.com.entity.PayPalPayment;
+import br.com.entity.Payment;
 import br.com.entity.Student;
 import br.com.entity.Subscription;
 import br.com.repository.StudentRepository;
 import br.com.service.EmailService;
+import br.com.validation.DomainValidation;
 import br.com.vo.*;
 import lombok.experimental.var;
 import org.springframework.validation.BindingResult;
@@ -16,7 +18,7 @@ import org.springframework.validation.DataBinder;
 import java.time.LocalDate;
 
 
-public class SubscriptionHandler implements Handler<CreatePayPalSubscriptionCommand> {
+public class SubscriptionHandler extends DomainValidation implements Handler<CreatePayPalSubscriptionCommand> {
 
     private StudentRepository studentRepository;
 
@@ -36,11 +38,11 @@ public class SubscriptionHandler implements Handler<CreatePayPalSubscriptionComm
     public GenericCommandResult handle(CreatePayPalSubscriptionCommand command) {
         // Verificar se Documento já está cadastrado
         if (studentRepository.documentExists(command.document))
-            bindingResult.rejectValue("document", null, "Este CPF já está em uso");
+            addFieldError("document", "Este CPF já está em uso");
 
         // Verificar se E-mail já está cadastrado
         if (studentRepository.emailExists(command.email))
-            bindingResult.rejectValue("email", null, "Este E-mail já está em uso");
+            addFieldError("email", "Este E-mail já está em uso");
 
         // Gerar os VOs
         Name name = new Name(command.firstName, command.lastName);
@@ -54,7 +56,7 @@ public class SubscriptionHandler implements Handler<CreatePayPalSubscriptionComm
         Subscription subscription = new Subscription(LocalDate.now().plusDays(30));
 
         // Só muda a implementação do Pagamento
-        var payment = new PayPalPayment(
+        Payment payment = new PayPalPayment(
                 command.paidDate,
                 command.expireDate,
                 command.total,
@@ -71,8 +73,7 @@ public class SubscriptionHandler implements Handler<CreatePayPalSubscriptionComm
         student.addSubscription(subscription);
 
         // Agrupar as Validações
-//        bindingResult.
-//        AddNotifications(name, document, email, address, student, subscription, payment);
+        addValidations(name, document, email, address, student, subscription, payment);
 
         // Salvar as Informações
         studentRepository.createSubscription(student);
