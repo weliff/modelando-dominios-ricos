@@ -11,5 +11,9 @@ public class Name extends ValueObject {
 
     private String lastName;
 
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }
 

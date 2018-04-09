@@ -24,4 +24,10 @@ Modelando Dominios Ricos
 
 8. Value Objects: Fazem parte da entidade, representam valores e não tem uma identificão única no contexto. 
   Não são gerenciados sem sozinhos ou sem uma entidade.
+  
+9. CQRS: Command Query Responsability Segregation. Commands: Para escrita(input)
+  Queries: Para leitura(output).
+
+10. Repository: abstrai o acesso a dados do dominio.
+
 

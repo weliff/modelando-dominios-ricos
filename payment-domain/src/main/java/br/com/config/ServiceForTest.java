@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 public class ServiceForTest {
 
     void validateEmail(@Email String email) {
-        System.out.println("Email válido: " + email);
+        System.out.println("email válido: " + email);
     }
 
 

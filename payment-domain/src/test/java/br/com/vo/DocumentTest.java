@@ -25,7 +25,7 @@ class DocumentTest {
     void shouldReturnErrorWhenCNPJIsInvalid() {
         Document document = new Document("12345", DocumentType.CNPJ);
         assertTrue(document.isInvalid());
-//        Set<ConstraintViolation<Document>> constraintViolations = validator.validate(document);
+//        Set<ConstraintViolation<document>> constraintViolations = validator.validate(document);
 //        assertFalse(constraintViolations.isEmpty());
     }
 
